@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hostinger vs Zeabur vs Render 比較儀表板</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121934;
+      --panel-2: #0f1530;
+      --text: #edf2ff;
+      --muted: #aab7de;
+      --line: rgba(255,255,255,0.10);
+      --hostinger: #7c4dff;
+      --zeabur: #00c2a8;
+      --render: #46a0ff;
+      --warn: #ffb84d;
+      --ok: #63e6be;
+      --bad: #ff8787;
+      --chip: rgba(255,255,255,0.06);
+      --shadow: 0 18px 45px rgba(0,0,0,0.28);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: linear-gradient(180deg, #09101f, #0d1430 35%, #0b1020); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { line-height: 1.55; }
+    .wrap { width: min(1240px, calc(100vw - 32px)); margin: 0 auto; padding: 28px 0 60px; }
+    .hero {
+      background: radial-gradient(circle at top left, rgba(124,77,255,0.18), transparent 28%),
+                  radial-gradient(circle at top right, rgba(0,194,168,0.16), transparent 25%),
+                  linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
+    h1 { font-size: clamp(30px, 4vw, 48px); }
+    h2 { font-size: 26px; margin-top: 28px; }
+    h3 { font-size: 18px; }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .pill { background: var(--chip); border: 1px solid var(--line); color: var(--text); padding: 8px 12px; border-radius: 999px; font-size: 13px; }
+    .grid-3, .grid-2, .grid-4 { display: grid; gap: 16px; margin-top: 20px; }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .hostinger { background: var(--hostinger); }
+    .zeabur { background: var(--zeabur); }
+    .render { background: var(--render); }
+    .kpi { font-size: 28px; font-weight: 800; margin: 10px 0 4px; }
+    .small { font-size: 13px; color: var(--muted); }
+    .table-wrap {
+      margin-top: 18px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.02);
+      box-shadow: var(--shadow);
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 1050px; }
+    th, td { padding: 16px; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { text-align: left; font-size: 13px; letter-spacing: 0.02em; color: #c9d4f8; background: rgba(255,255,255,0.03); }
+    td { color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    ul { margin: 8px 0 0 18px; padding: 0; }
+    li { margin-bottom: 6px; color: var(--muted); }
+    .score { display: grid; gap: 10px; margin-top: 12px; }
+    .bar { background: rgba(255,255,255,0.06); height: 10px; border-radius: 999px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; border-radius: inherit; }
+    .legend { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--muted); }
+    .tagrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag { padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,0.06); color: var(--text); font-size: 12px; border: 1px solid var(--line); }
+    .good { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .bad { color: var(--bad); }
+    .section-note {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .sources a { color: #9fd0ff; text-decoration: none; }
+    .sources li { word-break: break-word; }
+    footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 960px) {
+      .grid-3, .grid-4, .grid-2 { grid-template-columns: 1fr; }
+      .wrap { width: min(100vw - 20px, 1240px); }
+      .hero { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Hostinger vs Zeabur vs Render</h1>
+      <p>這是一份偏向「選型比較」的 HTML 儀表板：把三個平台的<strong>費用、優缺點、架站方式、主要客群</strong>放在同一頁，方便快速比對。價格以 2026-07-02 取得的官方頁面為準；活動價、年繳折扣、續約價與區域稅費都可能變動。</p>
+      <div class="meta">
+        <span class="pill">資料擷取時間：2026-07-02 21:55:27 CST</span>
+        <span class="pill">幣別以官方頁面顯示為主（多數為 USD）</span>
+        <span class="pill">適合拿來做初步選型，不應視為最終報價單</span>
+      </div>
+    </section>
+
+    <div class="grid-3">
+      <article class="card">
+        <div class="brand"><span class="dot hostinger"></span>Hostinger</div>
+        <div class="kpi">傳統主機取向</div>
+        <p>最像「買主機就能馬上上站」的方案，特別適合 WordPress、中小企業形象站、內容站、共享主機用戶。</p>
+        <div class="tagrow">
+          <span class="tag">共享主機</span>
+          <span class="tag">WordPress 託管</span>
+          <span class="tag">VPS</span>
+          <span class="tag">免費網域（部分方案）</span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="brand"><span class="dot zeabur"></span>Zeabur</div>
+        <div class="kpi">開發者友好</div>
+        <p>偏向現代應用部署平台，強調快速部署、Git 整合、成本可預測、管理自有伺服器與團隊協作。</p>
+        <div class="tagrow">
+          <span class="tag">Git 部署</span>
+          <span class="tag">Dockerfile</span>
+          <span class="tag">環境變數</span>
+          <span class="tag">健康檢查 / 備份</span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="brand"><span class="dot render"></span>Render</div>
+        <div class="kpi">成熟 PaaS / 雲部署</div>
+        <p>適合正式產品、Web 服務、背景工作、Cron、資料庫與多服務架構，治理與擴展性比前兩者更完整。</p>
+        <div class="tagrow">
+          <span class="tag">Web Service</span>
+          <span class="tag">Static Site</span>
+          <span class="tag">Background Worker</span>
+          <span class="tag">Blueprint / IaC</span>
+        </div>
+      </article>
+    </div>
+
+    <h2>一句話結論</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h3>如果你要最省事地做內容站 / WordPress</h3>
+        <p><strong>Hostinger</strong> 通常最好上手：方案清楚、活動價低、整合網域/SSL/站點搬家與 WordPress 維護。</p>
+      </div>
+      <div class="card">
+        <h3>如果你是獨立開發者或小團隊，要快速部署 App</h3>
+        <p><strong>Zeabur</strong> 會更順手：部署抽象化程度高，對 Git、框架、環境變數、團隊合作都更貼近開發流程。</p>
+      </div>
+      <div class="card">
+        <h3>如果你要更成熟的正式環境與多服務架構</h3>
+        <p><strong>Render</strong> 更均衡：從靜態站到 Web Service、Worker、Cron、Postgres、Preview 環境都能一路長大。</p>
+      </div>
+    </div>
+
+    <h2>核心比較表</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>平台</th>
+            <th>費用模型</th>
+            <th>代表方案 / 價格</th>
+            <th>優點</th>
+            <th>缺點</th>
+            <th>架站 / 部署方式</th>
+            <th>主要客群</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Hostinger</strong></td>
+            <td>偏固定月費；首頁大量使用長約促銷價，續約通常較高。</td>
+            <td>
+              <ul>
+                <li>Web Hosting Premium：<strong>$2.99/mo</strong>（48 個月促銷），續約約 <strong>$10.99/mo</strong></li>
+                <li>Business：<strong>$3.99/mo</strong>，續約約 <strong>$16.99/mo</strong></li>
+                <li>Cloud Startup：<strong>$7.99/mo</strong>，續約約 <strong>$25.99/mo</strong></li>
+                <li>VPS KVM 1：<strong>$6.49/mo</strong>，續約約 <strong>$11.99/mo</strong></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>活動價非常低，入門門檻低</li>
+                <li>WordPress、生態工具、網站搬家、SSL、網域整合完整</li>
+                <li>共享主機 / WordPress / VPS 層級分明</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>促銷價與續約價落差大</li>
+                <li>較偏傳統主機思維，不是最現代的 app PaaS</li>
+                <li>若是容器化、多服務微服務架構，操作模型不如 Render / Zeabur 直接</li>
+              </ul>
+            </td>
+            <td>共享主機、Managed WordPress、雲主機、VPS、拖拉式網站建置、部分 Web Apps Hosting。</td>
+            <td>WordPress 站長、中小企業官網、部落格、作品集、剛開始接觸架站的人。</td>
+          </tr>
+          <tr>
+            <td><strong>Zeabur</strong></td>
+            <td>固定訂閱方案 + 平台功能分級；官方文案強調「可預測、可控成本」。</td>
+            <td>
+              <ul>
+                <li>Free：<strong>$0/mo</strong></li>
+                <li>Dev：<strong>$5/mo</strong>（前 14 天免費）</li>
+                <li>Pro：<strong>$19/mo</strong>（前 14 天免費）</li>
+                <li>Team：<strong>$79/mo</strong>，含 3 席，額外席位 <strong>+$24/seat/mo</strong></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>部署體驗快，文件明確支援 Git、Dockerfile、Custom Image、VS Code/Cursor 擴充</li>
+                <li>介面與流程對開發者友好，環境變數、健康檢查、備份、日誌、回滾等都有文檔</li>
+                <li>可管理自有伺服器與叢集，彈性比純共享主機高</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>相較 Hostinger，對完全非技術使用者仍有學習門檻</li>
+                <li>價格不是以「超低促銷主機」為賣點</li>
+                <li>若你只想裝 WordPress/買網域就上線，可能顯得過於工程化</li>
+              </ul>
+            </td>
+            <td>Git 整合、自動部署、Dockerfile、自訂映像、環境變數、網域、監控、備份、團隊與 API / Webhook 等。</td>
+            <td>獨立開發者、新創、需要快速交付 side project / SaaS / API 的小團隊。</td>
+          </tr>
+          <tr>
+            <td><strong>Render</strong></td>
+            <td>Workspace 月費 + compute 用量/實例費；靜態站可免費，服務實例依規格計費。</td>
+            <td>
+              <ul>
+                <li>Workspace Hobby：<strong>$0/mo + compute</strong></li>
+                <li>Pro：<strong>$25/mo + compute</strong></li>
+                <li>Scale：<strong>$499/mo + compute</strong></li>
+                <li>Web Service Starter：<strong>$7/mo</strong>；Standard：<strong>$25/mo</strong></li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>服務型態完整：Static Site、Web Service、Private Service、Worker、Cron、Postgres、Key Value</li>
+                <li>Preview / Blueprint / Docker / API / CLI / MCP / IaC 等能力成熟</li>
+                <li>很適合正式產品逐步擴展，治理與團隊能力強</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>理解成本與計價模型比 Hostinger 高</li>
+                <li>正式團隊方案明顯更貴</li>
+                <li>若你只做單純內容站，可能是大材小用</li>
+              </ul>
+            </td>
+            <td>Git 持續部署、Docker、Blueprint（render.yaml）、多服務預覽環境、背景工作、排程工作、資料庫與私有網路。</td>
+            <td>正式 SaaS、API 產品、需要背景工作與資料庫的團隊、從 side project 漸進到 production 的開發團隊。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>情境推薦</h2>
+    <div class="grid-4">
+      <div class="card">
+        <h3>最適合新手</h3>
+        <p><strong>Hostinger</strong></p>
+        <p class="small">原因：購買主機 → 綁網域 → 裝 WordPress 的路線最直覺。</p>
+      </div>
+      <div class="card">
+        <h3>最適合獨立開發者</h3>
+        <p><strong>Zeabur</strong></p>
+        <p class="small">原因：部署速度快，功能夠用，對 side project / AI app / 小型 SaaS 很順手。</p>
+      </div>
+      <div class="card">
+        <h3>最適合正式產品</h3>
+        <p><strong>Render</strong></p>
+        <p class="small">原因：服務種類、擴展能力、團隊治理、IaC 與 Preview 能力更完整。</p>
+      </div>
+      <div class="card">
+        <h3>最看重促銷入門價</h3>
+        <p><strong>Hostinger</strong></p>
+        <p class="small">原因：首頁主力方案促銷價顯著低於多數 PaaS。</p>
+      </div>
+    </div>
+
+    <h2>主觀評分（1–10，作為選型提示）</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="brand"><span class="dot hostinger"></span>Hostinger</div>
+        <div class="score">
+          <div><div class="legend"><span>新手友好</span><span>9/10</span></div><div class="bar"><span style="width:90%;background:var(--hostinger)"></span></div></div>
+          <div><div class="legend"><span>現代部署彈性</span><span>5/10</span></div><div class="bar"><span style="width:50%;background:var(--hostinger)"></span></div></div>
+          <div><div class="legend"><span>成本可預期</span><span>6/10</span></div><div class="bar"><span style="width:60%;background:var(--hostinger)"></span></div></div>
+          <div><div class="legend"><span>正式產品擴展</span><span>5/10</span></div><div class="bar"><span style="width:50%;background:var(--hostinger)"></span></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="brand"><span class="dot zeabur"></span>Zeabur</div>
+        <div class="score">
+          <div><div class="legend"><span>新手友好</span><span>7/10</span></div><div class="bar"><span style="width:70%;background:var(--zeabur)"></span></div></div>
+          <div><div class="legend"><span>現代部署彈性</span><span>8/10</span></div><div class="bar"><span style="width:80%;background:var(--zeabur)"></span></div></div>
+          <div><div class="legend"><span>成本可預期</span><span>8/10</span></div><div class="bar"><span style="width:80%;background:var(--zeabur)"></span></div></div>
+          <div><div class="legend"><span>正式產品擴展</span><span>7/10</span></div><div class="bar"><span style="width:70%;background:var(--zeabur)"></span></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="brand"><span class="dot render"></span>Render</div>
+        <div class="score">
+          <div><div class="legend"><span>新手友好</span><span>6/10</span></div><div class="bar"><span style="width:60%;background:var(--render)"></span></div></div>
+          <div><div class="legend"><span>現代部署彈性</span><span>9/10</span></div><div class="bar"><span style="width:90%;background:var(--render)"></span></div></div>
+          <div><div class="legend"><span>成本可預期</span><span>7/10</span></div><div class="bar"><span style="width:70%;background:var(--render)"></span></div></div>
+          <div><div class="legend"><span>正式產品擴展</span><span>9/10</span></div><div class="bar"><span style="width:90%;background:var(--render)"></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>適合 / 不適合情境</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Hostinger</h3>
+        <p class="good"><strong>最適合：</strong>WordPress、部落格、作品集、企業官網、低成本起步。</p>
+        <p class="bad"><strong>較不適合：</strong>容器化多服務、需要複雜 CI/CD、私有網路、背景工作與平台工程治理的團隊。</p>
+      </div>
+      <div class="card">
+        <h3>Zeabur</h3>
+        <p class="good"><strong>最適合：</strong>獨立開發者、AI / SaaS side project、小型產品快速驗證與部署。</p>
+        <p class="bad"><strong>較不適合：</strong>完全不想碰部署概念的非技術用戶，或需要極大型企業治理與合規能力的團隊。</p>
+      </div>
+      <div class="card">
+        <h3>Render</h3>
+        <p class="good"><strong>最適合：</strong>正式 API / SaaS、多服務應用、需要 Worker / Cron / Database / Preview / IaC 的產品。</p>
+        <p class="bad"><strong>較不適合：</strong>只要一個簡單內容站、只追求最低入門價格的人。</p>
+      </div>
+    </div>
+
+    <h2>你可以怎麼選</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>選 Hostinger，如果你...</h3>
+        <ul>
+          <li>想要低入門價與完整主機套餐</li>
+          <li>主要做 WordPress / 企業官網 / 部落格</li>
+          <li>希望把網域、信箱、SSL、主機放在同一個供應商</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>選 Zeabur，如果你...</h3>
+        <ul>
+          <li>是工程師或懂 Git / Docker / 環境變數</li>
+          <li>想快速把 side project 或 AI app 上線</li>
+          <li>希望平台更貼近現代開發流程，但成本仍相對可控</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>選 Render，如果你...</h3>
+        <ul>
+          <li>要做 Web service + worker + cron + database 的完整產品</li>
+          <li>重視 Preview、Blueprint、團隊治理與後續擴展</li>
+          <li>可接受比傳統主機更高的理解成本與正式環境預算</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>若你還不確定</h3>
+        <ul>
+          <li>內容站 / WordPress：先看 Hostinger</li>
+          <li>Side project / 小型 SaaS：先看 Zeabur</li>
+          <li>Production App / 多服務架構：先看 Render</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>來源</h2>
+    <div class="card sources">
+      <ul>
+        <li><a href="https://www.hostinger.com/web-hosting">https://www.hostinger.com/web-hosting</a></li>
+        <li><a href="https://www.hostinger.com/wordpress-hosting">https://www.hostinger.com/wordpress-hosting</a></li>
+        <li><a href="https://www.hostinger.com/vps-hosting">https://www.hostinger.com/vps-hosting</a></li>
+        <li><a href="https://zeabur.com/pricing">https://zeabur.com/pricing</a></li>
+        <li><a href="https://zeabur.com/docs/en-US">https://zeabur.com/docs/en-US</a></li>
+        <li><a href="https://render.com/pricing">https://render.com/pricing</a></li>
+        <li><a href="https://render.com/docs">https://render.com/docs</a></li>
+      </ul>
+      <div class="section-note">
+        備註：Hostinger 的價格明顯帶有長約促銷與續約差異；Render 的月費需搭配 compute / instance 類型理解；Zeabur 官方文件則強調固定方案與成本可預測。若你打算正式採購，我建議在結帳前再看一次官方價格頁。
+      </div>
+    </div>
+
+    <footer>
+      這份頁面是可直接開啟的單檔 HTML。若你要，我也可以下一步幫你做成：1) 中文更精簡的商務版，或 2) 加上更多技術細節與推薦架構的工程版。
+    </footer>
+  </div>
+</body>
+</html>
